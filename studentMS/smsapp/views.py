@@ -1,8 +1,11 @@
 from django.shortcuts import render,redirect
-from . import db
+from . import db,services
 from bson import ObjectId
+
 # Create your views here.
 # login page
+
+
 
 def login(req):
     if(req.method == "POST"):
@@ -39,12 +42,12 @@ def reg(req):
 # home page
 def home(req):
     print("trigger")
-    session_user_id = req.session.get("userId") 
-
-    if not session_user_id:
+    sessionId = req.session.get("userId") 
+    print(sessionId,"session_user")
+    if not sessionId:
         return redirect("login")
-    user = db.coll.find_one({"_id": session_user_id}) 
-
+    user = services.findUser(sessionId)
+    print("user is ",user)
     students = db.studentcoll.find()
     courses = db.courscoll.find()
     context = {
@@ -57,8 +60,9 @@ def home(req):
 # add student
 def addstudent(req):
     users = db.coll.find()
-    session = req.session.get("userId")
-    if(not session):
+    sessionId = req.session.get("userId")
+    user = services.findUser(sessionId)
+    if(not sessionId):
         return redirect("login")
     if(req.method == "POST"):
         print("reg block")
@@ -76,11 +80,12 @@ def addstudent(req):
                             "degree":degree,"course":course,})
         print("redirect block")
         return redirect("students")
-    return render(req,"addStudent.html",{"users":users})
+    return render(req,"addStudent.html",{"users":users,"user":user})
 # students
 def students(req):
-    session = req.session.get("userId")
-    if not session:
+    sessionId = req.session.get("userId")
+    user = services.findUser(sessionId)
+    if not sessionId:
         return redirect("login") 
     print("working")
     students = db.studentcoll.find()
@@ -88,7 +93,7 @@ def students(req):
     for i in students:
         i["docId"] = str(i["_id"])
         datas.append(i)
-    return render(req, "students.html", {"students": datas})
+    return render(req, "students.html", {"students": datas,"user":user})
 
 # logout
 def logout(req):
@@ -98,28 +103,32 @@ def logout(req):
 # about
 def about(req):
     users = db.coll.find()
-    session = req.session.get("userId")
-    if(not session):
+    sessionId = req.session.get("userId")
+    user = services.findUser(sessionId)
+    print("about",user)
+    if(not sessionId):
         return redirect("login")
-    return render(req,"about.html",{"users":users})
+    return render(req,"about.html",{"users":users,"user":user})
 # cours
 def cours(req):
-    session = req.session.get("userId")
-    if not session:
+    sessionId = req.session.get("userId")
+    user = services.findUser(sessionId)
+    if not sessionId:
         return redirect("login") 
     print("working")
     courses = db.courscoll.find()
     data = []
     for i in courses:
-        i["documentId"] = str(i["_id"])
+        i["docId"] = str(i["_id"])
         data.append(i)
-    return render(req, "cours.html", {"courses": data})  
+    return render(req, "cours.html", {"courses": data,"user":user})  
 
 # addCours
 def addCours(req):
     users = db.coll.find()
-    session = req.session.get("userId")
-    if(not session):
+    sessionId = req.session.get("userId")
+    user = services.findUser(sessionId)
+    if(not sessionId):
         return redirect("login")
     if(req.method == "POST"):
         print("reg block")
@@ -131,7 +140,7 @@ def addCours(req):
         db.courscoll.insert_one({"coursename":coursename,"duration":duration,"Specialties":Specialties,"description":description,})
         print("redirect block")
         return redirect("cours")
-    return render(req,"addCours.html",{"users":users})
+    return render(req,"addCours.html",{"users":users,"user":user})
 
 # delet student
 def deleteStudent(req, id):
@@ -143,9 +152,12 @@ def deleteStudent(req, id):
     return redirect("students")
 # deleteCours
 def deleteCours(req,id):
-    if req.method == "POST":
+    print("delete course",req.method)
+    
+    if (req.method == "GET"):
         print(req.method,"req method cours")
         print("delete cours", id)
         objectId = ObjectId(id)
         db.courscoll.delete_one({"_id": objectId})
-    return redirect("cours")
+        return redirect("cours")
+    

@@ -75,7 +75,7 @@ body {
      border: 2px solid white;
 }
 .active a{
-  color: red;
+  border: 2px solid black;
 }
 
 .main-content {
@@ -181,6 +181,7 @@ li{
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  // position: relative;
 }
 
 // add students

@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-</head>
-<body>
+    <script src="../static/js/script.js" defer></script>
+  </head>
+  <body>
     <div class="header">
-        <span>Welcome,{{ user }}</span>  
+        <span>Welcome,{{ user.username }}</span>  
     </div>
     <div class="dashboard">
         <div class="sidebar">
             <h2>Dashboard</h2>
             <ul>
                 <li class="{% if request.path == '/home/' %} active {% endif %}">
-                    {{ request.path }}
                     <a href="{% url 'home' %}" >Home</a>
                 </li>
                 <li class="{% if request.path == '/students/' %} active {% endif %}">
@@ -81,5 +81,5 @@
         </div>
         {% endblock %}
     </div>
-</body>
+  </body>
 </html>

@@ -19,12 +19,21 @@
         <p><strong>Course:</strong> {{ student.course }}</p>
       
         <div class="btns">
-          <div class="btn"><a href="#">Edit</a></div>
-          <form action="{% url 'deleteStudent' student.docId %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this student?');">
+          <button class="btn">Edit</button>
+          <button class="btn deleteCourseBtn">Delete</button> 
+        </div>
+         {% comment %} hidd {% endcomment %}
+        <div class="popup studentDeleteModal">
+          <form method="get" action="{% url 'deleteStudent' student.docId %}">
             {% csrf_token %}
-            <button type="submit" class="btn">Delete</button>
+            <div class="popup-content">
+              <p>Are you sure you want to delete the Student?</p>
+              <button type="submit">Yes</button>
+              <button type="button" onclick="closePopup(event)">No</button>
+            </div>
           </form>
         </div>
+        {% comment %} hidd {% endcomment %}
       </div>
    
     {% endfor %}

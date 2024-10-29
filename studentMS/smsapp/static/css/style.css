@@ -447,4 +447,14 @@ li {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(253, 0, 84, 0.486);
 }/*# sourceMappingURL=style.css.map */

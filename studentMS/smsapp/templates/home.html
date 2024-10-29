@@ -9,13 +9,14 @@
 </head>
 <body>
     <div class="header">
-        <span>Welcome,{{ user.username }}</span>  
+        <span>Welcome,{{ user }}</span>  
     </div>
     <div class="dashboard">
         <div class="sidebar">
             <h2>Dashboard</h2>
             <ul>
                 <li class="{% if request.path == '/home/' %} active {% endif %}">
+                    {{ request.path }}
                     <a href="{% url 'home' %}" >Home</a>
                 </li>
                 <li class="{% if request.path == '/students/' %} active {% endif %}">

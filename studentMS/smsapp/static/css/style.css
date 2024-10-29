@@ -69,14 +69,14 @@ body {
   transition: background-color 0.3s;
 }
 
-.active a {
-  color: red;
-}
-
 .sidebar ul li a:hover, .sidebar ul li a.active {
   background-color: #17a2b8;
   color: white;
   border: 2px solid white;
+}
+
+.active a {
+  color: red;
 }
 
 .main-content {

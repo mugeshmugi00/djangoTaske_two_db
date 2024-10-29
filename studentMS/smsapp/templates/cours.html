@@ -1,0 +1,34 @@
+{% extends "home.html" %} 
+{% block main %}
+  <div id="home" class="content-section">
+  </div>
+  
+  <section class="action-checkbox">
+    <h2 class="center">Course Details</h2>
+    <div class="flex">
+      {% for course in courses %}
+        <div class="student-card">
+          <p><strong>Course Name:</strong> {{ course.coursename }}</p>
+          <p><strong>Duration:</strong> {{ course.duration }}</p>
+          <p><strong>Specialties:</strong> {{ course.Specialties }}</p>
+          <p><strong>Description:</strong> {{ course.description }}</p>
+
+          <div class="btns">
+            <div class="btn"><a href="#">Edit</a></div>
+            <form action="{% url 'deleteCours' course.documentId %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this course?');">
+              {% csrf_token %}
+              <button type="submit" class="btn">Delete</button>
+            </form>
+          </div>
+        </div>
+      {% empty %}
+        <p>No courses available.</p>
+      {% endfor %}
+    </div>
+
+    <div class="mar">
+      <a href="{% url 'addCours' %}" class="addstudent">Add Course</a>
+    </div>
+    
+  </section>
+{% endblock %}

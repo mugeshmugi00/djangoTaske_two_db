@@ -1,0 +1,37 @@
+{% extends "home.html" %} 
+{% block main %}
+  <div id="home" class="content-section">
+  </div>
+  
+  <section class="action-checkbox">
+    <h2 class="center">Student Details</h2>
+    <div class="flex">
+    {% for student in students %}
+    
+      <div class="student-card">
+        <p><strong>Username:</strong> {{ student.username }}</p>
+        <p><strong>Email:</strong> {{ student.email }}</p>
+        <p><strong>Birthday:</strong> {{ student.birthday }}</p>
+        <p><strong>Age:</strong> {{ student.age }}</p>
+        <p><strong>Phone Number:</strong> {{ student.phoneNumber }}</p>
+        <p><strong>Gender:</strong> {{ student.gender }}</p>
+        <p><strong>Degree:</strong> {{ student.degree }}</p>
+        <p><strong>Course:</strong> {{ student.course }}</p>
+      
+        <div class="btns">
+          <div class="btn"><a href="#">Edit</a></div>
+          <form action="{% url 'deleteStudent' student.docId %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this student?');">
+            {% csrf_token %}
+            <button type="submit" class="btn">Delete</button>
+          </form>
+        </div>
+      </div>
+   
+    {% endfor %}
+  </div>
+    <div class="mar">
+      <a href="{% url 'addstudent' %}" class="addstudent">Add User</a>
+    </div>
+    
+  </section>
+{% endblock %}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+    <div class="header">
+        <span>Welcome,{{ user.username }}</span>  
+    </div>
+    <div class="dashboard">
+        <div class="sidebar">
+            <h2>Dashboard</h2>
+            <ul>
+                <li class="{% if request.path == '/home/' %} active {% endif %}">
+                    <a href="{% url 'home' %}" >Home</a>
+                </li>
+                <li class="{% if request.path == '/students/' %} active {% endif %}">
+                    <a href="{% url 'students' %}" >Students</a>
+                </li>
+                <li class="{% if request.path == '/cours/' %} active {% endif %}">
+                    <a href="{% url 'cours' %}" >Courses</a>
+                </li>
+                <li class="{% if request.path == '/addstudent/' %} active {% endif %}">
+                    <a href="{% url 'addstudent' %}" >Add Student</a>
+                </li>
+                <li class="{% if request.path == '/addCours/' %} active {% endif %}">
+                    <a href="{% url 'addCours' %}" >Add Course</a>
+                </li>
+                <li class="{% if request.path == '/about/' %} active {% endif %}">
+                    <a href="{% url 'about' %}" >About</a>
+                </li>
+                <li class="{% if request.path == '/home/' %} active {% endif %}">
+                    <a href="{% url 'logout' %}" >Logout</a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            {% block main %}
+            <div id="home" class="content-section">
+                <h1 class="center">Welcome to the Home'page</h1>
+            </div>
+            
+            <section class="aboutpage-section aboutpage-student-details">
+                <h2 class="aboutpage-subtitle">Student Details</h2>
+                <div class="aboutpage-student-card">
+                    {% for student in students %}
+                    <div class="aboutpage-student">
+                        <p><strong>Username:</strong> {{ student.username }}</p>
+                        <p><strong>Email:</strong> {{ student.email }}</p>
+                        <p><strong>Birthday:</strong> {{ student.birthday }}</p>
+                        <p><strong>Age:</strong> {{ student.age }}</p>
+                        <p><strong>Phone Number:</strong> {{ student.phoneNumber }}</p>
+                        <p><strong>Gender:</strong> {{ student.gender }}</p>
+                        <p><strong>Degree:</strong> {{ student.degree }}</p>
+                        <p><strong>Course:</strong> {{ student.course }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            <!-- Section for Course Details -->
+            <section class="aboutpage-section aboutpage-student-details">
+                <h2 class="aboutpage-subtitle">Course Details</h2>
+                <div class="aboutpage-course-card">
+                    {% for course in courses %}
+                    <div class="aboutpage-course">
+                        <p><strong>Course Name:</strong> {{ course.coursename }}</p>
+                        <p><strong>Duration:</strong> {{ course.duration }}</p>
+                        <p><strong>Specialties:</strong> {{ course.Specialties }}</p>
+                        <p><strong>Description:</strong> {{ course.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            
+        </div>
+        {% endblock %}
+    </div>
+</body>
+</html>

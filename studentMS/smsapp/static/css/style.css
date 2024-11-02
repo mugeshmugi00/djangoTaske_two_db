@@ -3,10 +3,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 body {
-  font-family: Arial, sans-serif;
   background-color: #f4f4f4;
 }
 
@@ -450,8 +450,9 @@ li {
 }
 
 /* Popup background */
+/* Popup background */
 .popup {
-  display: none;
+  display: none; /* Hidden by default */
   position: fixed;
   top: 0;
   left: 0;
@@ -460,6 +461,12 @@ li {
   background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
+  z-index: 20;
+}
+
+/* Visible class for popup */
+.popup.show {
+  display: flex; /* Only display when 'show' class is added */
 }
 
 /* Popup content box */
@@ -469,4 +476,13 @@ li {
   border-radius: 5px;
   text-align: center;
   width: 300px;
+}
+
+.confirm {
+  text-decoration: none;
+  background-color: #17a2b8;
+  border: none;
+  padding: 7px 22px;
+  color: white;
+  border-radius: 3px;
 }/*# sourceMappingURL=style.css.map */

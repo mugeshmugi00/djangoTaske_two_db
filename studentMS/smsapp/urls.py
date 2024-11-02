@@ -13,4 +13,7 @@ urlpatterns = [
     path("addCours/", views.addCours, name="addCours"),
     path("delete/<str:id>",views.deleteStudent,name="deleteStudent"),
     path("cours/delete/<str:id>",views.deleteCours,name="deleteCours"),
+    path("editCours/<str:id>", views.editCours, name="editCours"),
+    path("editStudents/<str:id>",views.editStudents,name="editStudents"),
+    
 ]

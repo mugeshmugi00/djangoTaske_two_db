@@ -34,7 +34,7 @@
                 <li class="{% if request.path == '/about/' %} active {% endif %}">
                     <a href="{% url 'about' %}" >About</a>
                 </li>
-                <li class="{% if request.path == '/home/' %} active {% endif %}">
+                <li class="{% if request.path == '/logout/' %} active {% endif %}">
                     <a href="{% url 'logout' %}" >Logout</a>
                 </li>
             </ul>
@@ -43,7 +43,7 @@
         <div class="main-content">
             {% block main %}
             <div id="home" class="content-section">
-                <h1 class="center">Welcome to the Home'page</h1>
+                <h1 class="center">User & Course Details</h1>
             </div>
             
             <section class="aboutpage-section aboutpage-student-details">

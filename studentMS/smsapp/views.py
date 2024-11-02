@@ -144,8 +144,8 @@ def addCours(req):
 
 # delet student
 def deleteStudent(req, id):
-    if req.method == "POST":
-        print(req.method, "this is method")
+    print(req.method, "this is method")
+    if req.method == "GET":
         print("delete student", id)
         object_id = ObjectId(id)
         db.studentcoll.delete_one({"_id": object_id})
@@ -153,11 +153,50 @@ def deleteStudent(req, id):
 # deleteCours
 def deleteCours(req,id):
     print("delete course",req.method)
-    
     if (req.method == "GET"):
         print(req.method,"req method cours")
         print("delete cours", id)
         objectId = ObjectId(id)
         db.courscoll.delete_one({"_id": objectId})
         return redirect("cours")
-    
+#edit course
+def editCours(req,id):
+    courseId = ObjectId(id)
+    sessionId = req.session.get("userId")
+    user = services.findUser(sessionId)
+    course = db.courscoll.find_one({"_id":courseId})
+    if(not sessionId):
+        return redirect("login")
+    if(req.method == "POST"):
+        print("reg block")
+        query = req.POST
+        coursename = query.get("coursename")
+        duration = query.get("duration")
+        Specialties = query.get("Specialties")
+        description = query.get("description")
+        db.courscoll.find_one_and_update({"_id":courseId},{"$set":{"coursename":coursename,"duration":duration,"Specialties":Specialties,"description":description,}})
+        print("redirect block")
+        return redirect("cours")
+    return render(req,"editCourse.html",{"course":course,"user":user})
+# edit student
+def editStudents(req,id):
+    studentId = ObjectId(id)
+    sessionId = req.session.get("userId")
+    user = services.findUser(sessionId)
+    student = db.studentcoll.find_one({"_id":studentId})
+    if(not sessionId):
+        return redirect("login")
+    if(req.method == "POST"):
+        query = req.POST
+        username = query.get("username")
+        email = query.get("email")
+        birthday = query.get("birthday")
+        age = query.get("age")
+        phoneNumber = query.get("phoneNumber")
+        gender = query.get("gender")
+        degree = query.get("degree")
+        course = query.get("course")
+        db.studentcoll.find_one_and_update({"_id":studentId},{"$set":{"username":username,"email":email,"birthday":birthday,"age":age,"phoneNumber":phoneNumber,"gender":gender,"degree":degree,"course":course,}})
+        print("redirect block")
+        return redirect("students")
+    return render(req,"editStudents.html",{"student":student,"user":user})

@@ -2,7 +2,6 @@
 {% block main %}
   <div id="home" class="content-section">
   </div>
-  
   <section class="action-checkbox">
     <h2 class="center">Student Details</h2>
     <div class="flex">
@@ -19,19 +18,17 @@
         <p><strong>Course:</strong> {{ student.course }}</p>
       
         <div class="btns">
-          <button class="btn">Edit</button>
-          <button class="btn deleteCourseBtn">Delete</button> 
+          <button class="btn"><a href="{% url 'editStudents' student.docId %}" >Edit</a></button>
+          <button class="btn deleteStudentBtn">Delete</button> 
         </div>
          {% comment %} hidd {% endcomment %}
         <div class="popup studentDeleteModal">
-          <form method="get" action="{% url 'deleteStudent' student.docId %}">
             {% csrf_token %}
             <div class="popup-content">
               <p>Are you sure you want to delete the Student?</p>
-              <button type="submit">Yes</button>
-              <button type="button" onclick="closePopup(event)">No</button>
+              <button type="submit"><a href="{% url 'deleteStudent' student.docId %}" class="confirm">Yes</a></button>
+              <button type="button" onclick="closeStudentPopup(event)"  class="confirm">No</button>
             </div>
-          </form>
         </div>
         {% comment %} hidd {% endcomment %}
       </div>

@@ -3,6 +3,9 @@
 
 <section class="action-checkbox">
   <h2 class="center">Course Details</h2>
+  <div class="mar">
+    <a href="{% url 'addcourse' %}" class="addstudent">Add Course</a>
+  </div>
   <div class="flex">
     {% for course in courses %}
     
@@ -13,7 +16,7 @@
       <p><strong>Description:</strong> {{ course.description }}</p>
 
       <div class="btns">
-        <button class="btn "><a href="{% url 'editCours' course.docId %}" >Edit</a></button>
+        <button class="btn "><a href="{% url 'editcourse' course.docId %}" >Edit</a></button>
         <button class="btn deleteCourseBtn">Delete</button> 
       </div>
       {% comment %} hidd {% endcomment %}
@@ -21,7 +24,7 @@
           {% csrf_token %}
           <div class="popup-content">
             <p>Are you sure you want to delete the course?</p>
-            <button type="submit"><a href="{% url 'deleteCours' course.docId %}" >Yes</a></button>
+            <button type="submit"><a href="{% url 'deletecourse' course.docId %}" >Yes</a></button>
             <button type="button" onclick="closeCoursePopup(event)">No</button>
           </div>
         </form>
@@ -34,8 +37,6 @@
     {% endfor %}
   </div>
 
-  <div class="mar">
-    <a href="{% url 'addCours' %}" class="addstudent">Add Course</a>
-  </div>
+  
 </section>
 {% endblock %}

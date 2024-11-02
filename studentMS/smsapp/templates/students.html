@@ -4,11 +4,15 @@
   </div>
   <section class="action-checkbox">
     <h2 class="center">Student Details</h2>
+    <div class="mar">
+      <a href="{% url 'addstudent' %}" class="addstudent">Add Student</a>
+    </div>
     <div class="flex">
+
     {% for student in students %}
     
       <div class="student-card">
-        <p><strong>Username:</strong> {{ student.username }}</p>
+        <p><strong>Student Name:</strong> {{ student.username }}</p>
         <p><strong>Email:</strong> {{ student.email }}</p>
         <p><strong>Birthday:</strong> {{ student.birthday }}</p>
         <p><strong>Age:</strong> {{ student.age }}</p>
@@ -35,9 +39,7 @@
    
     {% endfor %}
   </div>
-    <div class="mar">
-      <a href="{% url 'addstudent' %}" class="addstudent">Add User</a>
-    </div>
+   
     
   </section>
 {% endblock %}

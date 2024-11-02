@@ -9,11 +9,11 @@ urlpatterns = [
     path("students/",views.students,name="students"),
     path("logout/", views.logout, name="logout"),
     path("about/", views.about, name="about"),
-    path("cours/", views.cours, name="cours"),
-    path("addCours/", views.addCours, name="addCours"),
+    path("course/", views.course, name="course"),
+    path("addcourse/", views.addcourse, name="addcourse"),
     path("delete/<str:id>",views.deleteStudent,name="deleteStudent"),
-    path("cours/delete/<str:id>",views.deleteCours,name="deleteCours"),
-    path("editCours/<str:id>", views.editCours, name="editCours"),
+    path("course/delete/<str:id>",views.deletecourse,name="deletecourse"),
+    path("editcourse/<str:id>", views.editcourse, name="editcourse"),
     path("editStudents/<str:id>",views.editStudents,name="editStudents"),
     
 ]

@@ -48,8 +48,8 @@ def home(req):
         return redirect("login")
     user = services.findUser(sessionId)
     print("user is ",user)
-    students = db.studentcoll.find()
-    courses = db.courscoll.find()
+    students = db.studentcoll.find().limit(3)
+    courses = db.courscoll.find().limit(3)
     context = {
         "students": students,
         "courses": courses,
@@ -110,7 +110,7 @@ def about(req):
         return redirect("login")
     return render(req,"about.html",{"users":users,"user":user})
 # cours
-def cours(req):
+def course(req):
     sessionId = req.session.get("userId")
     user = services.findUser(sessionId)
     if not sessionId:
@@ -121,10 +121,10 @@ def cours(req):
     for i in courses:
         i["docId"] = str(i["_id"])
         data.append(i)
-    return render(req, "cours.html", {"courses": data,"user":user})  
+    return render(req, "course.html", {"courses": data,"user":user})  
 
 # addCours
-def addCours(req):
+def addcourse(req):
     users = db.coll.find()
     sessionId = req.session.get("userId")
     user = services.findUser(sessionId)
@@ -139,8 +139,8 @@ def addCours(req):
         description = query.get("description")
         db.courscoll.insert_one({"coursename":coursename,"duration":duration,"Specialties":Specialties,"description":description,})
         print("redirect block")
-        return redirect("cours")
-    return render(req,"addCours.html",{"users":users,"user":user})
+        return redirect("course")
+    return render(req,"addcourse.html",{"users":users,"user":user})
 
 # delet student
 def deleteStudent(req, id):
@@ -151,16 +151,16 @@ def deleteStudent(req, id):
         db.studentcoll.delete_one({"_id": object_id})
     return redirect("students")
 # deleteCours
-def deleteCours(req,id):
+def deletecourse(req,id):
     print("delete course",req.method)
     if (req.method == "GET"):
         print(req.method,"req method cours")
         print("delete cours", id)
         objectId = ObjectId(id)
         db.courscoll.delete_one({"_id": objectId})
-        return redirect("cours")
+        return redirect("course")
 #edit course
-def editCours(req,id):
+def editcourse(req,id):
     courseId = ObjectId(id)
     sessionId = req.session.get("userId")
     user = services.findUser(sessionId)
@@ -176,8 +176,8 @@ def editCours(req,id):
         description = query.get("description")
         db.courscoll.find_one_and_update({"_id":courseId},{"$set":{"coursename":coursename,"duration":duration,"Specialties":Specialties,"description":description,}})
         print("redirect block")
-        return redirect("cours")
-    return render(req,"editCourse.html",{"course":course,"user":user})
+        return redirect("course")
+    return render(req,"editcourse.html",{"course":course,"user":user})
 # edit student
 def editStudents(req,id):
     studentId = ObjectId(id)

@@ -35,8 +35,10 @@ def reg(req):
         password = query.get("password")
         confirmpassword = query.get("confirmpassword")
         if(confirmpassword == password):
-            db.coll.insert_one({"username":username,"password":password})
-            print("redirect block")
+            db.admins.insert_one({"username":username,"password":password})
+            # if(user):
+            #     adminId = db.admins.find_one({"adminId":user["_id"]})
+            #     print("adminId",adminId)
             return redirect("login")
     return render(req,"reg.html",{"message":"This user is exsit Tyr another name!"})
 # home page
@@ -49,7 +51,7 @@ def home(req):
     user = services.findUser(sessionId)
     print("user is ",user)
     students = db.studentcoll.find({"adminId":user["_id"]}).limit(3)
-    courses = db.courscoll.find().limit(3)
+    courses = db.courscoll.find({"adminId":user["_id"]}).limit(3)
     context = {
         "students": students,
         "courses": courses,
@@ -116,7 +118,7 @@ def course(req):
     if not sessionId:
         return redirect("login") 
     print("working")
-    courses = db.courscoll.find()
+    courses = db.courscoll.find({"adminId":user["_id"]})
     data = []
     for i in courses:
         i["docId"] = str(i["_id"])
@@ -137,7 +139,7 @@ def addcourse(req):
         duration = query.get("duration")
         Specialties = query.get("Specialties")
         description = query.get("description")
-        db.courscoll.insert_one({"coursename":coursename,"duration":duration,"Specialties":Specialties,"description":description,})
+        db.courscoll.insert_one({"coursename":coursename,"duration":duration,"Specialties":Specialties,"description":description,"adminId":user["_id"]})
         print("redirect block")
         return redirect("course")
     return render(req,"addcourse.html",{"users":users,"user":user})

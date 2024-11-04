@@ -19,7 +19,6 @@ def login(req):
             return render(req,"reg.html",{"message":"user is not exist pls Creat the user!"})
         else:
             id = str(user['_id'])
-            print(id,"id is")
             print(id,user['username'])
             print("session is ",req.session)
             req.session['userId'] = id
@@ -35,12 +34,16 @@ def reg(req):
         password = query.get("password")
         confirmpassword = query.get("confirmpassword")
         if(confirmpassword == password):
-            db.admins.insert_one({"username":username,"password":password})
-            # if(user):
-            #     adminId = db.admins.find_one({"adminId":user["_id"]})
-            #     print("adminId",adminId)
-            return redirect("login")
-    return render(req,"reg.html",{"message":"This user is exsit Tyr another name!"})
+            if db.admins.find_one({"username": username}):
+                return render(req, "reg.html", {"message": "This username already exists. Try another name!"})
+            user = db.admins.insert_one({"username": username, "password": password})
+            if(user):
+                userId = user.inserted_id
+                print("adminId", userId)
+                print("redirect")
+                return redirect("login")
+            return render(req, "reg.html", {"message": "User registration failed. Please try again."})
+    return render(req, "reg.html")
 # home page
 def home(req):
     print("trigger")

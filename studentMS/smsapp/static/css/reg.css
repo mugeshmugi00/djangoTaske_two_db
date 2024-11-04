@@ -74,3 +74,6 @@ input {
     text-decoration: none;
     color: white;
 }
+.error{
+    color: red;
+}

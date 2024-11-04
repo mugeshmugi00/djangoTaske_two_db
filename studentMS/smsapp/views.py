@@ -12,11 +12,11 @@ def login(req):
         query = req.POST
         username = query.get("username")
         password = query.get("password")
-        user = db.coll.find_one({"username": username, "password": password})
+        user = db.admins.find_one({"username": username, "password": password})
         print(user,"this is user")
         if(not user):
             print("User not found, redirecting to registration.")
-            return redirect("reg")
+            return render("reg.html",({"message":user not exist}))
         else:
             id = str(user['_id'])
             print(id,"id is")
@@ -35,7 +35,7 @@ def reg(req):
         password = query.get("password")
         confirmpassword = query.get("confirmpassword")
         if(confirmpassword == password):
-            db.coll.insert_one({"username":username,"password":password})
+            db.admins.insert_one({"username":username,"password":password})
             print("redirect block")
             return redirect("login")
     return render(req,"reg.html")
@@ -59,7 +59,7 @@ def home(req):
     return render(req, "home.html", context)
 # add student
 def addstudent(req):
-    users = db.coll.find()
+    users = db.admins.find()
     sessionId = req.session.get("userId")
     user = services.findUser(sessionId)
     if(not sessionId):
@@ -102,7 +102,7 @@ def logout(req):
     return redirect("login")
 # about
 def about(req):
-    users = db.coll.find()
+    users = db.admins.find()
     sessionId = req.session.get("userId")
     user = services.findUser(sessionId)
     print("about",user)
@@ -125,7 +125,7 @@ def course(req):
 
 # addCours
 def addcourse(req):
-    users = db.coll.find()
+    users = db.admins.find()
     sessionId = req.session.get("userId")
     user = services.findUser(sessionId)
     if(not sessionId):

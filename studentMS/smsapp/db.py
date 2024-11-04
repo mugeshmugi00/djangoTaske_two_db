@@ -4,7 +4,7 @@ Local_link = MongoClient("mongodb://localhost:27017/")
 # data base
 db = Local_link.studentMS
 # collection
-coll = db.SMS
+admins = db.admins
 # students coll
 studentcoll = db.students
 # cours coll

@@ -12,6 +12,10 @@ body {
   background-color: #f4f4f4;
 }
 
+.error {
+  color: red;
+}
+
 .header {
   width: 100%;
   padding: 10px;
@@ -72,7 +76,8 @@ body {
   transition: background-color 0.3s;
 }
 
-.sidebar ul li a:hover, .sidebar ul li a.active {
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
   border: 2px solid black;
 }
 
@@ -328,7 +333,7 @@ p {
 .aboutpage-section {
   margin-bottom: 30px;
   padding: 20px;
-  background-color: #F0EFF3;
+  background-color: #f0eff3;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-image: url(https://kingstudio.ro/demos/soft-ui/assets/images/bg-img4.jpg);
@@ -355,7 +360,8 @@ p {
   align-items: center;
 }
 
-.aboutpage-student, .aboutpage-course {
+.aboutpage-student,
+.aboutpage-course {
   background-color: #ffffff;
   padding: 30px;
   border-radius: 10px;
@@ -364,7 +370,8 @@ p {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.aboutpage-student:hover, .aboutpage-course:hover {
+.aboutpage-student:hover,
+.aboutpage-course:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }

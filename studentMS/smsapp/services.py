@@ -4,5 +4,8 @@ from bson import ObjectId
 
 def findUser(userId):
     userObjId = ObjectId(userId)
-    user = db.coll.find_one({"_id":userObjId})
+    user = db.admins.find_one({"_id":userObjId})
     return user
+
+def getUserId(userId):
+    return ObjectId(userId)

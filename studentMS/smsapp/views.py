@@ -16,7 +16,7 @@ def login(req):
         print(user,"this is user")
         if(not user):
             print("User not found, redirecting to registration.")
-            return render("reg.html",({"message":user not exist}))
+            return render(req,"reg.html",({"message":"pls creat the user!"}))
         else:
             id = str(user['_id'])
             print(id,"id is")
@@ -35,7 +35,7 @@ def reg(req):
         password = query.get("password")
         confirmpassword = query.get("confirmpassword")
         if(confirmpassword == password):
-            db.admins.insert_one({"username":username,"password":password})
+            db.coll.insert_one({"username":username,"password":password})
             print("redirect block")
             return redirect("login")
     return render(req,"reg.html")
@@ -48,7 +48,7 @@ def home(req):
         return redirect("login")
     user = services.findUser(sessionId)
     print("user is ",user)
-    students = db.studentcoll.find().limit(3)
+    students = db.studentcoll.find({"adminId":user["_id"]}).limit(3)
     courses = db.courscoll.find().limit(3)
     context = {
         "students": students,
@@ -77,7 +77,7 @@ def addstudent(req):
         course = query.get("course")
         db.studentcoll.insert_one({"username":username,"email":email,"birthday":birthday,
                             "age":age,"phoneNumber":phoneNumber,"gender":gender,
-                            "degree":degree,"course":course,})
+                            "degree":degree,"course":course,"adminId":user["_id"]})
         print("redirect block")
         return redirect("students")
     return render(req,"addStudent.html",{"users":users,"user":user})
@@ -88,7 +88,7 @@ def students(req):
     if not sessionId:
         return redirect("login") 
     print("working")
-    students = db.studentcoll.find()
+    students = db.studentcoll.find({"adminId":user["_id"]})
     datas = []
     for i in students:
         i["docId"] = str(i["_id"])

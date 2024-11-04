@@ -16,7 +16,7 @@ def login(req):
         print(user,"this is user")
         if(not user):
             print("User not found, redirecting to registration.")
-            return render(req,"reg.html",({"message":"pls creat the user!"}))
+            return render(req,"reg.html",{"message":"user is not exist pls Creat the user!"})
         else:
             id = str(user['_id'])
             print(id,"id is")
@@ -38,7 +38,7 @@ def reg(req):
             db.coll.insert_one({"username":username,"password":password})
             print("redirect block")
             return redirect("login")
-    return render(req,"reg.html")
+    return render(req,"reg.html",{"message":"This user is exsit Tyr another name!"})
 # home page
 def home(req):
     print("trigger")

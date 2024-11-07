@@ -55,8 +55,9 @@ input {
   padding: 10px 15px;
   border-radius: 4px;
   cursor: pointer;
-  width: 48%;
+  /* width: 48%; */
   text-align: center;
+  font-size: 15px;
 }
 
 .btn:hover {

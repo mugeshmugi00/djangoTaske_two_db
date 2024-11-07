@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from . import db,services
 from bson import ObjectId
-
+import re
 # Create your views here.
 # login page
 
@@ -16,8 +16,10 @@ def login(req):
         print(user,"this is user")
         if(not user):
             print("User not found, redirecting to registration.")
-            return render(req,"reg.html",{"message":"user is not exist pls Creat the user!"})
+            # return render(req,"reg.html",{"message":"user is not exist pls Creat the user!"})
+            return redirect("reg")
         else:
+            print("triger form-login")
             id = str(user['_id'])
             print(id,user['username'])
             print("session is ",req.session)
@@ -33,16 +35,27 @@ def reg(req):
         username = query.get("username")
         password = query.get("password")
         confirmpassword = query.get("confirmpassword")
+        
+        username_pattern = re.compile(r"^(?=.*[a-zA-Z])[a-zA-Z0-9_]{5,15}$")
+        password_pattern = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$")
+        
+        if(not username_pattern.match(username)):
+            return render(req,"reg.html",{"usernameerror":"letters, digits, and underscores length to between 5 and 15 characters!"})
+        if(not password_pattern.match(password)):
+            return render(req,"reg.html",{"passwordError":"Requires at least one lowercase letter, one uppercase letter, and one digit. minimum length of 8 character!"})
+        
         if(confirmpassword == password):
-            if db.admins.find_one({"username": username}):
+           
+            exists = db.admins.find_one({"username": username})
+            if(exists):
+                print("exists",exists)
                 return render(req, "reg.html", {"message": "This username already exists. Try another name!"})
-            user = db.admins.insert_one({"username": username, "password": password})
-            if(user):
-                userId = user.inserted_id
-                print("adminId", userId)
-                print("redirect")
+            else:
+                print("else part")
+                db.admins.insert_one({"username": username, "password": password})
                 return redirect("login")
-            return render(req, "reg.html", {"message": "User registration failed. Please try again."})
+        else:
+            return render(req, "reg.html", {"message": "This confirm password and password is mismatch !"})
     return render(req, "reg.html")
 # home page
 def home(req):
